@@ -184,5 +184,32 @@ void Texture::Bind2(GLuint& program,int num){
 	}
 }
 
+Texture::Texture(std::string str[], int num)
+{
+	m_textures = new GLuint[num];
+	for (int i = 0; i < num; i++) {
+		glGenTextures(1, &m_textures[i]);
+		glBindTexture(GL_TEXTURE_2D, m_textures[i]);
+		int width, height, n;
+		unsigned char* image;
+		image = stbi_load(str[i].c_str(), &width, &height, &n, 0);
+		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, image);
+		glGenerateMipmap(GL_TEXTURE_2D);
+		stbi_image_free(image);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);   // We want to repeat this pattern so we set kept it at GL_REPEAT
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);   // We want to repeat this pattern so we set kept it at GL_REPEAT
+		// Set texture filtering
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+	}
+	glBindTexture(GL_TEXTURE_2D, 0);
+}
+
+void Texture::Bind(std::string names[], int num) {
+	for (int i = 0; i < num; i++) {
+		glActiveTexture(GL_TEXTURE0 + i);
+		glBindTexture(GL_TEXTURE_2D,m_textures[i]);
+	}
+}
 
 

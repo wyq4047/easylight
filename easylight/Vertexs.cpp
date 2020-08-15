@@ -78,19 +78,36 @@ myVertexs::myVertexs()
 
 
 void myVertexs::Draw1(GLuint& programma) { 
-	GLint objectColorLoc = glGetUniformLocation(programma, "objectColor");
-	glUniform3f(objectColorLoc, 1.0f, 0.5f, 0.31f); 
+	glm::vec3 cubePositions[] = {
+		glm::vec3(0.0f,  0.0f,  0.0f),
+		glm::vec3(2.0f,  5.0f, -15.0f),
+		glm::vec3(-1.5f, -2.2f, -2.5f),
+		glm::vec3(-3.8f, -2.0f, -12.3f),
+		glm::vec3(2.4f, -0.4f, -3.5f),
+		glm::vec3(-1.7f,  3.0f, -7.5f),
+		glm::vec3(1.3f, -2.0f, -2.5f),
+		glm::vec3(1.5f,  2.0f, -2.5f),
+		glm::vec3(1.5f,  0.2f, -1.5f),
+		glm::vec3(-1.3f,  1.0f, -1.5f)
+	};
+
 	// Draw the container (using container's vertex attributes)
 	glBindVertexArray(containerVAO);
-	Transformations trans;
-	trans.translates(glm::vec3(0.0f, 0.0f, 0.0f));
-	trans.Bind(programma); 
-	glm::mat4  unmodel = trans.get();
-	unmodel = glm::transpose(glm::inverse(unmodel));
-	GLuint unmodelLoc = glGetUniformLocation(programma,"unmodel");
-	glUniformMatrix4fv(unmodelLoc, 1, GL_FALSE, &unmodel[0][0]);
+	
+	for (GLuint i = 0; i < 10; i++) {
+		Transformations trans;
+		trans.translates(cubePositions[i]);
+		GLfloat angle = 20.0f * i;
+		trans.rotates(angle, glm::vec3(1.0f, 0.3f, 0.5f));
+		trans.Bind(programma);
+		glDrawArrays(GL_TRIANGLES, 0, 36);
 
-	glDrawArrays(GL_TRIANGLES, 0, 36);
+		glm::mat4  unmodel = trans.get();
+		unmodel = glm::transpose(glm::inverse(unmodel));
+		GLuint unmodelLoc = glGetUniformLocation(programma, "unmodel");
+		glUniformMatrix4fv(unmodelLoc, 1, GL_FALSE, &unmodel[0][0]);
+	}
+
 	glBindVertexArray(0);
 }
 
@@ -107,6 +124,7 @@ void myVertexs::Draw2(GLuint& programma)
 	GLint modelLoc = glGetUniformLocation(programma, "model");
 	glUniformMatrix4fv(modelLoc, 1, GL_FALSE, &model[0][0]);
 	glDrawArrays(GL_TRIANGLES, 0, 36);
-	glBindVertexArray(0);;
+	glBindVertexArray(0);
+
 }
 
