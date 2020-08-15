@@ -18,6 +18,29 @@ Texture::Texture(int i)
 	 
 }
 
+Texture::Texture(std::string filename) {
+	glGenTextures(1, &texture1);
+	glBindTexture(GL_TEXTURE_2D, texture1);
+	// Set our texture parameters
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE); 
+	
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+	int width, height, n;
+	unsigned char* image = stbi_load(filename.c_str(), &width, &height, &n, 0);
+	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, image);
+	glGenerateMipmap(GL_TEXTURE_2D);
+	stbi_image_free(image);
+	glBindTexture(GL_TEXTURE_2D, 0);
+}
+
+void Texture::Bind3(GLuint &program, std::string locname,int num) {
+	glActiveTexture(GL_TEXTURE0);
+	glBindTexture(GL_TEXTURE_2D, texture1);
+	glUniform1i(glGetUniformLocation(program, locname.c_str()), num);
+}
+
 Texture::Texture() {
 	// Load and create a texture 
 
@@ -57,6 +80,29 @@ Texture::Texture() {
 	stbi_image_free(image);
 	glBindTexture(GL_TEXTURE_2D, 0);
 }
+
+Texture::Texture(std::string filename[],int num) {
+	m_textures = new  GLuint[num];
+	for (int i = 0; i < num; i++) {
+		glGenTextures(1, &m_textures[i]);
+		glBindTexture(GL_TEXTURE_2D, m_textures[i]);
+		int width, height, n;
+		unsigned char* image = stbi_load(filename[i].c_str(), &width, &height, &n, 0);
+		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, image);
+		glGenerateMipmap(GL_TEXTURE_2D);
+		// Set our texture parameters
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST_MIPMAP_NEAREST);
+		stbi_image_free(image);
+		
+	}
+	glBindTexture(GL_TEXTURE_2D, 0);
+	
+}
+
 
 void Texture::Load1(const std::string str, GLuint index)
 {
@@ -130,14 +176,12 @@ void Texture::Bind(GLuint& program)
 	}
 }
 
-void Texture::Bind2(GLuint& program){
-
-	glActiveTexture(GL_TEXTURE0);
-	glBindTexture(GL_TEXTURE_2D, texture1);
-	glUniform1i(glGetUniformLocation(program, "ourTexture1"), 0);
-	glActiveTexture(GL_TEXTURE1);
-	glBindTexture(GL_TEXTURE_2D, texture2);
-	glUniform1i(glGetUniformLocation(program, "ourTexture2"), 1);
+void Texture::Bind2(GLuint& program,int num){
+	for (int i = 0; i < num; i++) {
+		glActiveTexture(GL_TEXTURE0+i); //激活，不然贴不上
+		glBindTexture(GL_TEXTURE_2D, m_textures[i]);
+		//glUniform1i(glGetUniformLocation(program, str[i].c_str()), i);
+	}
 }
 
 

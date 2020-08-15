@@ -91,5 +91,37 @@
     <None Include="res\viewshader.fs">
       <Filter>资源文件</Filter>
     </None>
+    <None Include="res\my_shader1.fs">
+      <Filter>资源文件</Filter>
+    </None>
+    <None Include="res\my_shader1.vs">
+      <Filter>资源文件</Filter>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="res\matrix.jpg">
+      <Filter>资源文件</Filter>
+    </Image>
+    <Image Include="res\awesomeface.png">
+      <Filter>资源文件</Filter>
+    </Image>
+    <Image Include="res\container.jpg">
+      <Filter>资源文件</Filter>
+    </Image>
+    <Image Include="res\container2.png">
+      <Filter>资源文件</Filter>
+    </Image>
+    <Image Include="res\container2_specular.jpg">
+      <Filter>资源文件</Filter>
+    </Image>
+    <Image Include="res\container2_specular.png">
+      <Filter>资源文件</Filter>
+    </Image>
+    <Image Include="res\liuhua.jpg">
+      <Filter>资源文件</Filter>
+    </Image>
+    <Image Include="res\wall.jpg">
+      <Filter>资源文件</Filter>
+    </Image>
   </ItemGroup>
 </Project>

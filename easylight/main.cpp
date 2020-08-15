@@ -14,7 +14,7 @@
 #include "Shader.h"
 #include "Camera.h"
 #include"Vertexs.h"
-
+#include"Textures.h"
 // Function prototypes
 void key_callback(GLFWwindow* window, int key, int scancode, int action, int mode);
 void mouse_callback(GLFWwindow* window, double xpos, double ypos);
@@ -60,8 +60,33 @@ int main()
 	//Shader lightingShader("./res/viewshader.vs", "./res/viewshader.fs");
 	Shader lampShader("./res/my_shader2.vs", "./res/my_shader2.fs");
 	myVertexs vertexs;
-	
+	std::string names[] = { 
+		"./res/liuhua.jpg",
+		"./res/container2_specular.jpg",
+		"./res/matrix.jpg" 
+	};
+	Texture tx(names, 2);
+	std::string strs[] = {
+		"material.diffuse",
+		"material.specular",
+		"material.emission"
+	};
 
+	lightingShader.Bind();
+	glUniform1i(glGetUniformLocation(lightingShader.m_program, "material.diffuse"), 0);
+	glUniform1i(glGetUniformLocation(lightingShader.m_program, "material.specular"), 1);
+	
+	/*
+	Texture tx("./res/container.jpg");
+	std::string str1 = "material.diffuse";
+	tx.Bind3(lightingShader.getProgram(), str1, 0);
+	Texture tx2("./res/container2_specular.png");
+	std::string str2 = "material.specular";
+	tx.Bind3(lightingShader.getProgram(), str2, 1);
+	Texture tx3("./res/matrix.jpg");
+	std::string str3 = "material.emission";
+	tx.Bind3(lightingShader.getProgram(), str3, 2);
+	*/
 	// Game loop
 	while (!display.isClosed())
 	{
@@ -75,8 +100,13 @@ int main()
 		lightingShader.Bind();
 		vertexs.Draw1(lightingShader.m_program);
 		camera.Bind(lightingShader.m_program, display.getWindow());
+
+		tx.Bind2(lightingShader.m_program, 2);
+		
+		
 		GLuint viewPosLoc = glGetUniformLocation(lightingShader.m_program, "viewPos");
 		glUniform3f(viewPosLoc, camera.cameraPos.x, camera.cameraPos.y, camera.cameraPos.z);
+
 		fillMaterials(lightingShader.getProgram());
 		fillLight(lightingShader.getProgram());
 
@@ -84,8 +114,8 @@ int main()
 		lampShader.Bind();
 		vertexs.Draw2(lampShader.getProgram());
 		camera.Bind(lampShader.getProgram(), display.getWindow());
-		glfwSwapBuffers(display.getWindow());
 		
+		glfwSwapBuffers(display.getWindow());
 	}
 
 	// Terminate GLFW, clearing any resources allocated by GLFW.

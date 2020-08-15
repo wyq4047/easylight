@@ -10,7 +10,8 @@ public:
 	
 	void Draw1(GLuint & programma);
 	void Draw2(GLuint & programma);
-	~myVertexs() {}
+	~myVertexs() {
+	}
 	GLuint VBO;
 	GLuint containerVAO;
 	GLuint lightVAO;
