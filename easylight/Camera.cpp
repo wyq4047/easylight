@@ -34,6 +34,11 @@ void Camera::SPACEPos(GLfloat cameraSpeed)
 	cameraPos += glm::normalize(glm::vec3(0.0,1.0f,0.0f)) * cameraSpeed;
 }
 
+void Camera::CTRLPos(GLfloat cameraSpeed)
+{
+	cameraPos -= glm::normalize(glm::vec3(0.0, 1.0f, 0.0f)) * cameraSpeed;
+}
+
 
 void Camera::ProcessMouseScroll(GLfloat yoffset)
 {

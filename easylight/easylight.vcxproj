@@ -154,10 +154,19 @@
   <ItemGroup>
     <None Include="res\my_shader.fs" />
     <None Include="res\my_shader.vs" />
+    <None Include="res\my_shader1.fs" />
+    <None Include="res\my_shader1.vs" />
     <None Include="res\my_shader2.fs" />
     <None Include="res\my_shader2.vs" />
     <None Include="res\viewshader.fs" />
     <None Include="res\viewshader.vs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="res\awesomeface.png" />
+    <Image Include="res\container.jpg" />
+    <Image Include="res\container2_specular.jpg" />
+    <Image Include="res\liuhua.jpg" />
+    <Image Include="res\wall.jpg" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

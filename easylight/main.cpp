@@ -14,14 +14,15 @@
 #include "Shader.h"
 #include "Camera.h"
 #include"Vertexs.h"
-
+#include"Textures.h"
 // Function prototypes
 void key_callback(GLFWwindow* window, int key, int scancode, int action, int mode);
 void mouse_callback(GLFWwindow* window, double xpos, double ypos);
 void scroll_callback(GLFWwindow* window, double xoffset, double yoffset);
 void do_movement();
 extern void fillMaterials(GLuint &programma);
-extern void fillLight(GLuint &programma);
+extern void fillLight(GLuint &programma,Camera &cm);
+
 // Window dimensions
 const GLuint WIDTH = 1920, HEIGHT = 1080;
 
@@ -60,8 +61,19 @@ int main()
 	//Shader lightingShader("./res/viewshader.vs", "./res/viewshader.fs");
 	Shader lampShader("./res/my_shader2.vs", "./res/my_shader2.fs");
 	myVertexs vertexs;
+	std::string filenames[] = {
+		"./res/container2.jpg",
+		"./res/container2_specular.jpg"
+	};
+	Texture tx(filenames,2);
+	std::string names[] = {
+		"material.diffuse",
+		"material.specular"
+	};
+	lightingShader.Bind();
+	glUniform1i(glGetUniformLocation(lightingShader.m_program, "material.diffuse"), 0);
+	glUniform1i(glGetUniformLocation(lightingShader.m_program, "material.specular"), 1);
 	
-
 	// Game loop
 	while (!display.isClosed())
 	{
@@ -78,8 +90,8 @@ int main()
 		GLuint viewPosLoc = glGetUniformLocation(lightingShader.m_program, "viewPos");
 		glUniform3f(viewPosLoc, camera.cameraPos.x, camera.cameraPos.y, camera.cameraPos.z);
 		fillMaterials(lightingShader.getProgram());
-		fillLight(lightingShader.getProgram());
-
+		fillLight(lightingShader.getProgram(),camera);
+		tx.Bind(names, 2);
 
 		lampShader.Bind();
 		vertexs.Draw2(lampShader.getProgram());
@@ -89,6 +101,7 @@ int main()
 	}
 
 	// Terminate GLFW, clearing any resources allocated by GLFW.
+	
 	glfwTerminate();
 	return 0;
 }
@@ -123,6 +136,9 @@ void do_movement()
 		camera.DPos(cameraSpeed);
 	if (keys[GLFW_KEY_SPACE])
 		camera.SPACEPos(cameraSpeed);
+	if (keys[GLFW_KEY_LEFT_CONTROL]) {
+		camera.CTRLPos(cameraSpeed);
+	}
 }
 
 bool firstMouse = true;

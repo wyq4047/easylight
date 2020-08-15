@@ -47,6 +47,8 @@ public:
 	void APos(GLfloat cameraSpeed);
 	void DPos(GLfloat cameraSpeed);
 	void SPACEPos(GLfloat cameraSpeed);
+
+	void CTRLPos(GLfloat cameraSpeed);
 	 
 	void ProcessMouseMovement(GLfloat xoffset, GLfloat yoffset, GLboolean constrainPitch = true);
 	void changeUP() {
