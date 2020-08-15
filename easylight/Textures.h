@@ -11,7 +11,7 @@ public:
 	void Load1(const std::string str, GLuint index);
 	void Load2(const std::string str, GLuint index);
 	void Bind(GLuint& program);
-	void Bind2(GLuint & program);
+	void Bind2(GLuint & program, int num);
 	Texture(std::string str[],int num);
 	void Bind(std::string names[], int num);
 	~Texture() {

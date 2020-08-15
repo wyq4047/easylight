@@ -97,6 +97,9 @@
     <None Include="res\my_shader1.vs">
       <Filter>资源文件</Filter>
     </None>
+    <None Include="res\multilights.fs">
+      <Filter>资源文件</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <Image Include="res\awesomeface.png">

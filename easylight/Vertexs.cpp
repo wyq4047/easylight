@@ -113,17 +113,23 @@ void myVertexs::Draw1(GLuint& programma) {
 
 void myVertexs::Draw2(GLuint& programma)
 {
-	glm::vec3 lightPos(1.2f, 1.0f, 2.0f);
-	
+	glm::vec3 pointLightPositions[] = {
+		glm::vec3(0.7f,  0.2f,  2.0f),
+		glm::vec3(2.3f, -3.3f, -4.0f),
+		glm::vec3(-4.0f,  2.0f, -12.0f),
+		glm::vec3(0.0f,  0.0f, -3.0f)
+	}; 
 	// Draw the container (using container's vertex attributes)
 	glBindVertexArray(lightVAO);
-	glm::mat4 model= glm::mat4(1.0f);
+	for (int i = 0; i < 4; i++) {
+		glm::mat4 model = glm::mat4(1.0f);
+		model = glm::translate(model, pointLightPositions[i]);
+		model = glm::scale(model, glm::vec3(0.2f)); // Make it a smaller cube
+		GLint modelLoc = glGetUniformLocation(programma, "model");
+		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, &model[0][0]);
+		glDrawArrays(GL_TRIANGLES, 0, 36);
+	}
 	
-	model = glm::translate(model, lightPos);
-	model = glm::scale(model, glm::vec3(0.2f)); // Make it a smaller cube
-	GLint modelLoc = glGetUniformLocation(programma, "model");
-	glUniformMatrix4fv(modelLoc, 1, GL_FALSE, &model[0][0]);
-	glDrawArrays(GL_TRIANGLES, 0, 36);
 	glBindVertexArray(0);
 
 }

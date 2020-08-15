@@ -152,6 +152,7 @@
     <ClInclude Include="Vertexs.h" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="res\multilights.fs" />
     <None Include="res\my_shader.fs" />
     <None Include="res\my_shader.vs" />
     <None Include="res\my_shader1.fs" />

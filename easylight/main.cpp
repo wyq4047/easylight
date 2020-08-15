@@ -57,7 +57,7 @@ int main()
 	// OpenGL options
 	glEnable(GL_DEPTH_TEST);
 	// Build and compile our shader program
-	Shader lightingShader("./res/my_shader.vs", "./res/my_shader.fs");
+	Shader lightingShader("./res/my_shader.vs", "./res/multilights.fs");
 	//Shader lightingShader("./res/viewshader.vs", "./res/viewshader.fs");
 	Shader lampShader("./res/my_shader2.vs", "./res/my_shader2.fs");
 	myVertexs vertexs;
