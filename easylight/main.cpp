@@ -1,7 +1,6 @@
 #include <iostream>
 #include <cmath>
 #include <GL/glew.h>
-
 // GLFW
 #include <glfw3.h>
 
@@ -15,6 +14,7 @@
 #include "Camera.h"
 #include"Vertexs.h"
 #include"Textures.h"
+#include"Model.h"
 // Function prototypes
 void key_callback(GLFWwindow* window, int key, int scancode, int action, int mode);
 void mouse_callback(GLFWwindow* window, double xpos, double ypos);
@@ -55,17 +55,23 @@ int main()
 		return -1;
 	}
 	// OpenGL options
-	glEnable(GL_DEPTH_TEST);
-	// Build and compile our shader program
-	Shader lightingShader("./res/my_shader.vs", "./res/multilights.fs");
-	//Shader lightingShader("./res/viewshader.vs", "./res/viewshader.fs");
+	glEnable(GL_DEPTH_TEST); 
+	Shader shader("./res/load_model.vs", "./res/load_model.fs");
+	char path[] = "F:/tuxinglib/backpack/backpack.obj";
+	Model mymodel(path);
+
+	/*
+	Shader lightingShader("./res/my_shader.vs", "./res/multilights.fs"); 
 	Shader lampShader("./res/my_shader2.vs", "./res/my_shader2.fs");
+	*/
+	//F:\tuxinglib\backpack\backpack.ojb
+	/*
 	myVertexs vertexs;
 	std::string filenames[] = {
 		"./res/container2.jpg",
 		"./res/container2_specular.jpg"
 	};
-	Texture tx(filenames,2);
+	myTexture tx(filenames,2);
 	std::string names[] = {
 		"material.diffuse",
 		"material.specular"
@@ -73,7 +79,7 @@ int main()
 	lightingShader.Bind();
 	glUniform1i(glGetUniformLocation(lightingShader.m_program, "material.diffuse"), 0);
 	glUniform1i(glGetUniformLocation(lightingShader.m_program, "material.specular"), 1);
-	
+	*/
 	// Game loop
 	while (!display.isClosed())
 	{
@@ -81,9 +87,22 @@ int main()
 		GLfloat currentFrame = glfwGetTime();
 		deltaTime = currentFrame - lastFrame;
 		lastFrame = currentFrame;
-
 		display.Clear();//°üº¬ÁËglfwPollEvents
 		do_movement();
+
+		shader.Bind();
+		glm::mat4 projection = glm::perspective(camera.Zoom, (float)WIDTH / (float)HEIGHT, 0.1f, 100.0f);
+		glm::mat4 view = camera.getView();
+		glUniformMatrix4fv(glGetUniformLocation(shader.m_program, "projection"), 1, GL_FALSE, glm::value_ptr(projection));
+		glUniformMatrix4fv(glGetUniformLocation(shader.m_program, "view"), 1, GL_FALSE, glm::value_ptr(view));
+
+		glm::mat4 model(1.0f);
+		model = glm::translate(model, glm::vec3(0.0f, -1.75f, 0.0f)); // Translate it down a bit so it's at the center of the scene
+		model = glm::scale(model, glm::vec3(0.2f, 0.2f, 0.2f));	// It's a bit too big for our scene, so scale it down
+		glUniformMatrix4fv(glGetUniformLocation(shader.m_program, "model"), 1, GL_FALSE, glm::value_ptr(model));
+		mymodel.Draw(shader);
+
+		/*
 		lightingShader.Bind();
 		vertexs.Draw1(lightingShader.m_program);
 		camera.Bind(lightingShader.m_program, display.getWindow());
@@ -96,6 +115,10 @@ int main()
 		lampShader.Bind();
 		vertexs.Draw2(lampShader.getProgram());
 		camera.Bind(lampShader.getProgram(), display.getWindow());
+		*/
+
+
+
 		glfwSwapBuffers(display.getWindow());
 		
 	}

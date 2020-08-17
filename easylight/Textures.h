@@ -1,20 +1,19 @@
 #pragma once
 #include<GL/glew.h> 
-#include"stb_image.h"
 #include<iostream>
 #include<string>
-class Texture
+class myTexture
 {
 public:
-	Texture(int i);
-	Texture();
+	myTexture(int i);
+	myTexture();
 	void Load1(const std::string str, GLuint index);
 	void Load2(const std::string str, GLuint index);
 	void Bind(GLuint& program);
 	void Bind2(GLuint & program, int num);
-	Texture(std::string str[],int num);
+	myTexture(std::string str[],int num);
 	void Bind(std::string names[], int num);
-	~Texture() {
+	~myTexture() {
 	}
 
 private:

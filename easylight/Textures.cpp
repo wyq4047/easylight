@@ -1,5 +1,5 @@
 #include"Textures.h"
-
+#include<SOIL/SOIL.h>
 
 
 const std::string strs[] = {
@@ -7,7 +7,7 @@ const std::string strs[] = {
 	"./res/liuhua.jpg"
 };
 
-Texture::Texture(int i)
+myTexture::myTexture(int i)
 {
 	nums = i;
 	m_textures = new GLuint[i]; 
@@ -20,11 +20,11 @@ Texture::Texture(int i)
 
 
 
-Texture::Texture() {
+myTexture::myTexture() {
 	// Load and create a texture 
 
 	// ====================
-	// Texture 1
+	// myTexture 1
 	// ====================
 	glGenTextures(1, &texture1);
 	glBindTexture(GL_TEXTURE_2D, texture1); // All upcoming GL_TEXTURE_2D operations now have effect on our texture object
@@ -35,14 +35,18 @@ Texture::Texture() {
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
 	// Load, create texture and generate mipmaps
+	int width, height;
+	unsigned char* image = SOIL_load_image("container.jpg", &width, &height, 0, SOIL_LOAD_RGB);
+	/*
 	int width, height, n;
 	unsigned char* image = stbi_load(strs[0].c_str(), &width, &height, &n, 0);
+	*/
 	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, image);
 	glGenerateMipmap(GL_TEXTURE_2D);
-	stbi_image_free(image);
+	SOIL_free_image_data(image);
 	glBindTexture(GL_TEXTURE_2D, 0); // Unbind texture when done, so we won't accidentily mess up our texture.
 	// ===================
-	// Texture 2
+	// myTexture 2
 	// ===================
 	glGenTextures(1, &texture2);
 	glBindTexture(GL_TEXTURE_2D, texture2);
@@ -53,15 +57,16 @@ Texture::Texture() {
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
 	// Load, create texture and generate mipmaps
-	image = stbi_load(strs[1].c_str(), &width, &height, &n, 0);
+	image = SOIL_load_image("container.jpg", &width, &height, 0, SOIL_LOAD_RGB);
+	//image = stbi_load(strs[1].c_str(), &width, &height, &n, 0);
 	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, image);
 	glGenerateMipmap(GL_TEXTURE_2D);
-	stbi_image_free(image);
+	SOIL_free_image_data(image);
 	glBindTexture(GL_TEXTURE_2D, 0);
 }
 
 
-void Texture::Load1(const std::string str, GLuint index)
+void myTexture::Load1(const std::string str, GLuint index)
 {
 	glGenTextures(1, &m_textures[index]);
 	//生成纹理的数量1，存储在第二个参数数组中（GLuint数组）
@@ -76,8 +81,8 @@ void Texture::Load1(const std::string str, GLuint index)
 	//glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
-	int width, height, n;
-	unsigned char* image = stbi_load(str.c_str(), &width, &height, &n, 0);
+	int width, height;
+	unsigned char* image = SOIL_load_image("container.jpg", &width, &height, 0, SOIL_LOAD_RGB);
 	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, image);
 	//第一个参数指定了纹理目标(Target)。设置为GL_TEXTURE_2D意味着会生成与当前绑定的纹理对象在同一个目标上的纹理（任何绑定到GL_TEXTURE_1D和GL_TEXTURE_3D的纹理不会受到影响）。
 	//第二个参数为纹理指定多级渐远纹理的级别，如果你希望单独手动设置每个多级渐远纹理的级别的话。这里我们填0，也就是基本级别。
@@ -88,12 +93,12 @@ void Texture::Load1(const std::string str, GLuint index)
 	//最后一个参数是真正的图像数据。
 	glGenerateMipmap(GL_TEXTURE_2D);
 	//为当前绑定的纹理自动生成所有需要的多级渐远纹理。
-	stbi_image_free(image);
+	SOIL_free_image_data(image);
 	glBindTexture(GL_TEXTURE_2D, 0);
 }
 
 
-void Texture::Load2(const std::string str,GLuint index) 
+void myTexture::Load2(const std::string str,GLuint index) 
 { 
 	glGenTextures(1, &m_textures[index]);
 	//生成纹理的数量1，存储在第二个参数数组中（GLuint数组）
@@ -107,8 +112,8 @@ void Texture::Load2(const std::string str,GLuint index)
 	//glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-	int width, height, n;
-	unsigned char* image = stbi_load(str.c_str(), &width, &height, &n, 0);
+	int width, height;
+	unsigned char* image = SOIL_load_image("container.jpg", &width, &height, 0, SOIL_LOAD_RGB);
 	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, image);
 	//第一个参数指定了纹理目标(Target)。设置为GL_TEXTURE_2D意味着会生成与当前绑定的纹理对象在同一个目标上的纹理（任何绑定到GL_TEXTURE_1D和GL_TEXTURE_3D的纹理不会受到影响）。
 	//第二个参数为纹理指定多级渐远纹理的级别，如果你希望单独手动设置每个多级渐远纹理的级别的话。这里我们填0，也就是基本级别。
@@ -119,11 +124,11 @@ void Texture::Load2(const std::string str,GLuint index)
 	//最后一个参数是真正的图像数据。
 	glGenerateMipmap(GL_TEXTURE_2D);
 	//为当前绑定的纹理自动生成所有需要的多级渐远纹理。
-	stbi_image_free(image);
+	SOIL_free_image_data(image);
 	glBindTexture(GL_TEXTURE_2D, 0);
 }
 
-void Texture::Bind(GLuint& program)
+void myTexture::Bind(GLuint& program)
 {
 	std::string str2[] = { "ourTexture1" ,"ourTexture2" };
 	for (int i = 0; i < nums; i++) {
@@ -133,25 +138,25 @@ void Texture::Bind(GLuint& program)
 	}
 }
 
-void Texture::Bind2(GLuint& program,int num){
+void myTexture::Bind2(GLuint& program,int num){
 	for (int i = 0; i < num; i++) {
 		glActiveTexture(GL_TEXTURE0+i); //激活，不然贴不上
 		glBindTexture(GL_TEXTURE_2D, m_textures[i]);
 	}
 }
 
-Texture::Texture(std::string str[], int num)
+myTexture::myTexture(std::string str[], int num)
 {
 	m_textures = new GLuint[num];
 	for (int i = 0; i < num; i++) {
 		glGenTextures(1, &m_textures[i]);
 		glBindTexture(GL_TEXTURE_2D, m_textures[i]);
-		int width, height, n;
+		int width, height;
 		unsigned char* image;
-		image = stbi_load(str[i].c_str(), &width, &height, &n, 0);
+		image = SOIL_load_image(str[i].c_str(), &width, &height, 0, SOIL_LOAD_RGB);
 		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, image);
 		glGenerateMipmap(GL_TEXTURE_2D);
-		stbi_image_free(image);
+		SOIL_free_image_data(image);
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);   // We want to repeat this pattern so we set kept it at GL_REPEAT
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);   // We want to repeat this pattern so we set kept it at GL_REPEAT
 		// Set texture filtering
@@ -161,7 +166,7 @@ Texture::Texture(std::string str[], int num)
 	glBindTexture(GL_TEXTURE_2D, 0);
 }
 
-void Texture::Bind(std::string names[], int num) {
+void myTexture::Bind(std::string names[], int num) {
 	for (int i = 0; i < num; i++) {
 		glActiveTexture(GL_TEXTURE0 + i);
 		glBindTexture(GL_TEXTURE_2D,m_textures[i]);

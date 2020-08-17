@@ -13,5 +13,6 @@ public:
 	GLuint& getProgram() { return m_program; }
 	~Shader();
 	GLuint m_program;
+	
 };
 

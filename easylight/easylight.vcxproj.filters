@@ -18,13 +18,7 @@
     <ClCompile Include="main.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="stb_image.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
     <ClCompile Include="Display.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
-    <ClCompile Include="Mesh.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
     <ClCompile Include="Textures.cpp">
@@ -45,6 +39,9 @@
     <ClCompile Include="Camera.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
+    <ClCompile Include="Model.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Camera.h">
@@ -59,9 +56,6 @@
     <ClInclude Include="Display.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="Mesh.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
     <ClInclude Include="Textures.h">
       <Filter>头文件</Filter>
     </ClInclude>
@@ -69,6 +63,15 @@
       <Filter>头文件</Filter>
     </ClInclude>
     <ClInclude Include="Vertexs.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="Model.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="MyMesh.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="Tmodel.h">
       <Filter>头文件</Filter>
     </ClInclude>
   </ItemGroup>
@@ -98,6 +101,12 @@
       <Filter>资源文件</Filter>
     </None>
     <None Include="res\multilights.fs">
+      <Filter>资源文件</Filter>
+    </None>
+    <None Include="res\load_model.vs">
+      <Filter>资源文件</Filter>
+    </None>
+    <None Include="res\load_model.fs">
       <Filter>资源文件</Filter>
     </None>
   </ItemGroup>
