@@ -109,6 +109,12 @@
     <None Include="res\load_model.fs">
       <Filter>资源文件</Filter>
     </None>
+    <None Include="res\singleColor.vs">
+      <Filter>资源文件</Filter>
+    </None>
+    <None Include="res\singleColor.fs">
+      <Filter>资源文件</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <Image Include="res\awesomeface.png">

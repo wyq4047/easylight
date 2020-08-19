@@ -164,6 +164,8 @@
     <None Include="res\my_shader1.vs" />
     <None Include="res\my_shader2.fs" />
     <None Include="res\my_shader2.vs" />
+    <None Include="res\singleColor.fs" />
+    <None Include="res\singleColor.vs" />
     <None Include="res\viewshader.fs" />
     <None Include="res\viewshader.vs" />
   </ItemGroup>

@@ -12,6 +12,8 @@ struct Vertex
 	glm::vec3 Position;
 	glm::vec3 Normal;
 	glm::vec2 TexCoords;
+	glm::vec3 Tangent;
+	glm::vec3 Bitangent;
 };
 
 struct Texture
@@ -46,8 +48,8 @@ myMesh::myMesh(std::vector<Vertex> vertices, std::vector<GLuint> indices, std::v
 
 void myMesh::Draw(Shader shader)
 {
-	GLuint diffuseNr = 1;
-	GLuint specularNr = 1;
+	GLuint diffuseNr = 1, normalNr = 1;
+	GLuint specularNr = 1, heightNr = 1;
 	for (GLuint i = 0; i < this->textures.size(); i++) {
 		glActiveTexture(GL_TEXTURE0 + i);
 		std::stringstream ss;
@@ -57,17 +59,20 @@ void myMesh::Draw(Shader shader)
 			ss << diffuseNr++;
 		else if (name == "texture_specular")
 			ss << specularNr++;
+		else if (name == "texture_normal")
+			ss << normalNr++; // transfer unsigned int to stream
+		else if (name == "texture_height")
+			ss << heightNr++; // transfer unsigned int to stream
 		number = ss.str();
 
 		glUniform1f(glGetUniformLocation(shader.m_program, ("material." + name + number).c_str()), i);
 		glBindTexture(GL_TEXTURE_2D, this->textures[i].id);
 	}
-	glActiveTexture(GL_TEXTURE0);
-
 	//绘制
 	glBindVertexArray(this->VAO);
 	glDrawElements(GL_TRIANGLES, this->indices.size(), GL_UNSIGNED_INT, 0);
 	glBindVertexArray(0);  //0 offset or new IBO
+	glActiveTexture(GL_TEXTURE0);
 }
 
 void myMesh::setupMesh() {
@@ -87,17 +92,19 @@ void myMesh::setupMesh() {
 
 	// 设置顶点坐标指针
 	glEnableVertexAttribArray(0);
-	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex),
-	(GLvoid*)0);
-	// 设置法线指针
+	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)0);
+	// vertex normals
 	glEnableVertexAttribArray(1);
-	glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex),
-	(GLvoid*)offsetof(Vertex, Normal));
-	// 设置顶点的纹理坐标
+	glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)offsetof(Vertex, Normal));
+	// vertex texture coords
 	glEnableVertexAttribArray(2);
-	glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, sizeof(Vertex),
-	(GLvoid*)offsetof(Vertex, TexCoords));
-
+	glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)offsetof(Vertex, TexCoords));
+	// vertex tangent
+	glEnableVertexAttribArray(3);
+	glVertexAttribPointer(3, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)offsetof(Vertex, Tangent));
+	// vertex bitangent
+	glEnableVertexAttribArray(4);
+	glVertexAttribPointer(4, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)offsetof(Vertex, Bitangent));
 	glBindVertexArray(0);
 	
 }

@@ -21,9 +21,7 @@ Display::Display(int w, int h, std::string title, GLFWmonitor* pt1, GLFWwindow* 
 
 
 void Display::Clear() {
-	glfwPollEvents();
-	glClearColor(0.1f, 0.1f, 0.1f, 1.0f);
-	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
 }
 void Display::Draw() {
 	

@@ -66,7 +66,7 @@ myVertexs::myVertexs()
 
 	
 	// Then, we set the light's VAO (VBO stays the same. After all, the vertices are the same for the light object (also a 3D cube))
-	glGenVertexArrays(2, &lightVAO);
+	glGenVertexArrays(1, &lightVAO);
 	glBindVertexArray(lightVAO);
 	// We only need to bind to the VBO (to link it with glVertexAttribPointer), no need to fill it; the VBO's data already contains all we need.
 	glBindBuffer(GL_ARRAY_BUFFER, VBO);
@@ -134,3 +134,33 @@ void myVertexs::Draw2(GLuint& programma)
 
 }
 
+
+void myVertexs::Draw3(GLuint & programma) {
+	glm::vec3 cubePositions[] = {
+	glm::vec3(0.0f,  0.0f,  0.0f),
+	glm::vec3(2.0f,  5.0f, -15.0f),
+	glm::vec3(-1.5f, -2.2f, -2.5f),
+	glm::vec3(-3.8f, -2.0f, -12.3f),
+	glm::vec3(2.4f, -0.4f, -3.5f),
+	glm::vec3(-1.7f,  3.0f, -7.5f),
+	glm::vec3(1.3f, -2.0f, -2.5f),
+	glm::vec3(1.5f,  2.0f, -2.5f),
+	glm::vec3(1.5f,  0.2f, -1.5f),
+	glm::vec3(-1.3f,  1.0f, -1.5f)
+	};
+
+	// Draw the container (using container's vertex attributes)
+	glBindVertexArray(containerVAO);
+
+	for (GLuint i = 0; i < 10; i++) {
+		Transformations trans;
+		trans.translates(cubePositions[i]);
+		GLfloat angle = 20.0f * i;
+		trans.rotates(angle, glm::vec3(1.0f, 0.3f, 0.5f));
+		trans.scales(glm::vec3(1.1,1.1,1.1));
+		trans.Bind(programma);
+		glDrawArrays(GL_TRIANGLES, 0, 36); 
+	}
+
+	glBindVertexArray(0);
+}
